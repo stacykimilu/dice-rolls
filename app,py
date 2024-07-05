@@ -1,0 +1,27 @@
+def solution(A, F, M):
+    N = len(A)
+    total_rolls = N + F
+    total_sum_required = total_rolls * M
+    sum_known = sum(A)
+    sum_missing = total_sum_required - sum_known
+    
+    # Check if sum_missing is feasible
+    if sum_missing < F or sum_missing > 6 * F:
+        return [0]
+    
+    # Generate results for missing rolls
+    result = []
+    for _ in range(F):
+        # Allocate as many as possible to each roll
+        next_roll = min(6, sum_missing - (F - 1))
+        result.append(next_roll)
+        sum_missing -= next_roll
+        F -= 1
+    
+    return result
+
+# Example cases
+print(solution([3, 2, 4, 3], 2, 4))  # [6, 6]
+print(solution([1, 5, 6], 4, 3))     # [2, 1, 2, 4] or other valid combinations
+print(solution([1, 2, 3, 4], 4, 6))  # [0]
+print(solution([6, 1], 1, 1))        # [0]
